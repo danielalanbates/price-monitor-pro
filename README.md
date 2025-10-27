@@ -1,5 +1,12 @@
 # Price Monitor Pro
 
+[![Build and Release](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/build-and-release.yml)
+[![Auto Publish](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/auto-publish.yml/badge.svg)](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/auto-publish.yml)
+[![CodeQL](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/danielalanbates/price-monitor-pro/actions/workflows/codeql-analysis.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![Electron](https://img.shields.io/badge/Electron-28.2.0-47848F.svg)](https://www.electronjs.org/)
+
 🛍️ **Professional price tracking tool for Amazon, eBay & more**
 
 Never miss a deal again! Automatically track product prices across multiple platforms and get notified when they drop.
@@ -32,8 +39,8 @@ Never miss a deal again! Automatically track product prices across multiple plat
 
 ### One-Click Setup (Recommended)
 ```bash
-git clone https://github.com/yourusername/price-monitor-scraper
-cd price-monitor-scraper
+git clone https://github.com/danielalanbates/price-monitor-pro
+cd price-monitor-pro
 ./launch.sh
 ```
 
@@ -148,8 +155,9 @@ pip install requests beautifulsoup4 lxml selenium webdriver-manager click colora
 
 ## Support
 
-- Email: your-email@domain.com
-- Issues: [GitHub Issues](https://github.com/yourusername/price-monitor-scraper/issues)
+- Email: danielalanbates@gmail.com
+- Issues: [GitHub Issues](https://github.com/danielalanbates/price-monitor-pro/issues)
+- Discussions: [GitHub Discussions](https://github.com/danielalanbates/price-monitor-pro/discussions)
 
 ## License
 
