@@ -47,9 +47,9 @@ def create_price_monitor_icon(size=1024):
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
 
-    # Center the text
+    # Center the text - position it slightly higher to make room for arrow below
     text_x = (size - text_width) // 2
-    text_y = (size - text_height) // 2 - int(size * 0.05)
+    text_y = (size - text_height) // 2 - int(size * 0.12)
 
     # Draw text with shadow for depth
     shadow_offset = int(size * 0.01)
@@ -57,16 +57,26 @@ def create_price_monitor_icon(size=1024):
               font=font, fill=(0, 0, 0, 128))
     draw.text((text_x, text_y), dollar_text, font=font, fill=icon_color)
 
-    # Draw small down arrow (price drop indicator)
-    arrow_size = int(size * 0.15)
-    arrow_x = center + int(size * 0.25)
-    arrow_y = center + int(size * 0.25)
+    # Draw downward arrow BELOW the dollar sign (not overlapping)
+    arrow_center_x = center
+    # Position arrow below the dollar sign
+    arrow_start_y = text_y + text_height
 
-    # Draw arrow pointing down (green for savings)
+    # Draw arrow shaft (vertical line)
+    shaft_width = int(size * 0.05)
+    shaft_height = int(size * 0.12)
+    draw.rectangle([
+        (arrow_center_x - shaft_width // 2, arrow_start_y),
+        (arrow_center_x + shaft_width // 2, arrow_start_y + shaft_height)
+    ], fill=accent_color)
+
+    # Draw arrow head (triangle pointing down)
+    arrow_head_size = int(size * 0.1)
+    arrow_tip_y = arrow_start_y + shaft_height + arrow_head_size
     arrow_points = [
-        (arrow_x, arrow_y),
-        (arrow_x + arrow_size, arrow_y),
-        (arrow_x + arrow_size // 2, arrow_y + arrow_size)
+        (arrow_center_x - arrow_head_size, arrow_start_y + shaft_height),  # Left
+        (arrow_center_x + arrow_head_size, arrow_start_y + shaft_height),  # Right
+        (arrow_center_x, arrow_tip_y)  # Bottom point
     ]
     draw.polygon(arrow_points, fill=accent_color)
 
