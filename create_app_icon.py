@@ -62,23 +62,27 @@ def create_price_monitor_icon(size=1024):
     # Position arrow below the dollar sign
     arrow_start_y = text_y + text_height
 
-    # Draw arrow shaft (vertical line)
-    shaft_width = int(size * 0.05)
+    # Calculate dollar sign vertical line width
+    # For Arial Bold at this size, the vertical line is approximately 8-10% of font size
+    # We'll use a similar proportion for the arrow shaft
+    dollar_line_width = int(size * 0.025)  # Matches typical dollar sign vertical line width
+
+    # Draw arrow shaft (vertical line) - WHITE to match dollar sign
     shaft_height = int(size * 0.12)
     draw.rectangle([
-        (arrow_center_x - shaft_width // 2, arrow_start_y),
-        (arrow_center_x + shaft_width // 2, arrow_start_y + shaft_height)
-    ], fill=accent_color)
+        (arrow_center_x - dollar_line_width // 2, arrow_start_y),
+        (arrow_center_x + dollar_line_width // 2, arrow_start_y + shaft_height)
+    ], fill=icon_color)  # WHITE (same as dollar sign)
 
-    # Draw arrow head (triangle pointing down)
-    arrow_head_size = int(size * 0.1)
+    # Draw arrow head (triangle pointing down) - WHITE
+    arrow_head_size = int(size * 0.08)
     arrow_tip_y = arrow_start_y + shaft_height + arrow_head_size
     arrow_points = [
         (arrow_center_x - arrow_head_size, arrow_start_y + shaft_height),  # Left
         (arrow_center_x + arrow_head_size, arrow_start_y + shaft_height),  # Right
         (arrow_center_x, arrow_tip_y)  # Bottom point
     ]
-    draw.polygon(arrow_points, fill=accent_color)
+    draw.polygon(arrow_points, fill=icon_color)  # WHITE (same as dollar sign)
 
     return image
 
