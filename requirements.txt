@@ -1,0 +1,44 @@
+# Price Monitor Pro - Python Dependencies
+# Updated: October 2025
+
+# Core Web Scraping
+requests>=2.32.0
+beautifulsoup4>=4.12.3
+lxml>=5.0.0
+selenium>=4.25.0
+webdriver-manager>=4.0.2
+
+# Data Processing
+pandas>=2.2.0
+
+# Task Scheduling & Automation
+schedule>=1.2.2
+
+# Terminal Output (for CLI)
+colorama>=0.4.6
+click>=8.1.7
+
+# Configuration Management
+python-dotenv>=1.0.1
+
+# Image Processing (for icon generation)
+Pillow>=10.4.0
+
+# macOS Integration (optional - for native notifications)
+# Note: pyobjc is only needed for advanced macOS features
+# pyobjc-framework-Cocoa>=10.0; sys_platform == 'darwin'
+
+
+# Installation Instructions
+# ========================
+#
+# Full installation (all features):
+#   pip install -r requirements.txt
+#
+# Minimal installation (basic scraping only):
+#   pip install requests beautifulsoup4 lxml
+#
+# Simple installation (no Selenium):
+#   pip install requests beautifulsoup4 lxml python-dotenv
+#
+# Note: smtplib-ssl is no longer required (smtplib is part of Python standard library)

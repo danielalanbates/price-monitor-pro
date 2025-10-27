@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Monitor Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-mark">💰</div>
+                    <div>
+                        <h1>Price Monitor Pro</h1>
+                        <p class="logo-subtitle">Track prices, save money</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="addProductBtn" class="btn btn-primary">
+                        <span class="icon">+</span>
+                        Add Product
+                    </button>
+                    <button id="testProductBtn" class="btn btn-secondary">
+                        <span class="icon">🧪</span>
+                        Test Search: iPhone 13 Mini
+                    </button>
+                    <button id="autoCheckBtn" class="btn btn-secondary">
+                        <span class="icon">⏱️</span>
+                        Auto-Check Interval
+                    </button>
+                    <button id="clearAllBtn" class="btn btn-warning">
+                        <span class="icon">🗑️</span>
+                        Clear All
+                    </button>
+                    <button id="findDealsBtn" class="btn btn-success">
+                        <span class="icon">🔥</span>
+                        Find eBay Deals
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Products Monitored</span>
+                    <span class="stat-value" id="totalProducts">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" title="Total amount saved compared to original prices when products were first added">
+                        Total Savings Tracked 💡
+                    </span>
+                    <span class="stat-value" id="totalSavings">$0.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Active Targets</span>
+                    <span class="stat-value" id="activeTargets">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Last Update</span>
+                    <span class="stat-value" id="lastUpdate">Never</span>
+                </div>
+            </div>
+
+            <!-- Product List -->
+            <div class="product-section">
+                <div class="section-header">
+                    <h2>Monitored Products</h2>
+                    <div class="view-controls">
+                        <button id="gridView" class="view-btn active" data-view="grid">Grid</button>
+                        <button id="listView" class="view-btn" data-view="list">List</button>
+                    </div>
+                </div>
+
+                <div class="products-container" id="productsContainer">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📦</div>
+                    <h3>No Products Yet</h3>
+                    <p>Start monitoring your favorite products by adding them above!</p>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        Add Your First Product
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Checking prices...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal-overlay" id="addProductModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add Product to Monitor</h3>
+                <button class="close-btn" onclick="hideAddProductModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="searchTerms">Search Terms</label>
+                        <input type="text" id="searchTerms" name="searchTerms" placeholder="apple iphone 15 pro 128gb unlocked" required>
+                        <small>Enter what you want to search for (e.g., "macbook pro 14 inch m3")</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productName">Product Name (Display)</label>
+                        <input type="text" id="productName" name="productName" placeholder="iPhone 15 Pro 128GB" required>
+                        <small>How you want this product to appear in your list</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="platforms">Platforms to Search</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="searchAmazon" name="searchAmazon" checked>
+                                <span class="checkmark"></span>
+                                Amazon
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="searchEbay" name="searchEbay" checked>
+                                <span class="checkmark"></span>
+                                eBay
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="searchGoogle" name="searchGoogle" checked>
+                                <span class="checkmark"></span>
+                                Google Shopping
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetPrice">Target Price (Optional)</label>
+                        <input type="number" id="targetPrice" name="targetPrice" placeholder="999.99" step="0.01" min="0">
+                        <small>Get notified when price drops to this amount</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideAddProductModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="addProductForm">Add Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="productDetailModal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h3 id="detailProductName">Product Details</h3>
+                <button class="close-btn" onclick="hideProductDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="product-detail-content">
+                    <div class="detail-info">
+                        <div class="info-item">
+                            <span class="label">Current Price:</span>
+                            <span class="value" id="detailCurrentPrice">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Target Price:</span>
+                            <span class="value" id="detailTargetPrice">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Listing:</span>
+                            <span class="value link" id="detailProductUrl">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Lowest Price:</span>
+                            <span class="value" id="detailLowestPrice">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Highest Price:</span>
+                            <span class="value" id="detailHighestPrice">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Average Price:</span>
+                            <span class="value" id="detailAveragePrice">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Price Checks:</span>
+                            <span class="value" id="detailPriceChecks">-</span>
+                        </div>
+                    </div>
+                    <div class="price-history">
+                        <h4>Price History</h4>
+                        <div class="history-list" id="priceHistoryList">
+                            <!-- Price history will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideProductDetailModal()">Close</button>
+                <button type="button" class="btn btn-primary" id="openProductUrl">View Product</button>
+                <button type="button" class="btn btn-danger" id="removeProductBtn">Remove Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deal Finder Modal -->
+    <div class="modal-overlay" id="dealFinderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>🔥 Find eBay Deals</h3>
+                <button class="close-btn" onclick="hideDealFinderModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="dealFinderForm">
+                    <div class="form-group">
+                        <label for="dealSearchTerms">What are you looking for?</label>
+                        <input type="text" id="dealSearchTerms" name="dealSearchTerms" placeholder="iPhone, laptop, vintage guitar..." required>
+                        <small>Enter search terms to find auction deals</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="maxPrice">Maximum Price</label>
+                            <input type="number" id="maxPrice" name="maxPrice" value="50" step="1" min="1" required>
+                            <small>Only show deals under this price</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="minBids">Minimum Bids</label>
+                            <input type="number" id="minBids" name="minBids" value="0" step="1" min="0">
+                            <small>Only show items with at least this many bids</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endingSoon">Ending Within (hours)</label>
+                            <input type="number" id="endingSoon" name="endingSoon" value="24" step="1" min="1" max="72">
+                            <small>Only show auctions ending soon</small>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Results Area -->
+                <div class="deals-results" id="dealsResults" style="display: none;">
+                    <h4>Found Deals</h4>
+                    <div class="deals-list" id="dealsList">
+                        <!-- Deals will be displayed here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideDealFinderModal()">Cancel</button>
+                <button type="submit" class="btn btn-success" form="dealFinderForm">
+                    <span class="icon">🔍</span>
+                    Find Deals
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-Check Settings Modal -->
+    <div class="modal-overlay" id="autoCheckModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Auto-Check Preferences</h3>
+                <button class="close-btn" onclick="hideAutoCheckModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="autoCheckForm">
+                    <div class="form-group">
+                        <label for="checkInterval">Check every (minutes)</label>
+                        <input type="number" id="checkInterval" name="checkInterval" min="1" value="60" required>
+                        <small>How often should WindSurf check all product prices automatically?</small>
+                    </div>
+
+                    <div class="form-group toggles">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoCheckEnabled" name="autoCheckEnabled" checked>
+                            <span class="checkmark"></span>
+                            Enable automatic checks
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="enableNotifications" name="enableNotifications" checked>
+                            <span class="checkmark"></span>
+                            Show desktop notifications
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideAutoCheckModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="autoCheckForm">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
