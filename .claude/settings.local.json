@@ -1,14 +1,28 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)",
-      "Bash(cat:*)",
-      "Bash(gh auth:*)",
-      "Bash(git init:*)",
+      "Bash(open:*)",
+      "Bash(osascript -e 'tell application \"\"Google Chrome\"\" to activate' -e 'tell application \"\"System Events\"\" to keystroke \"\"n\"\" using command down')",
+      "Read(//Users/daniel/Documents/aicode/16-Web_Scraping/**)",
+      "Bash(chmod:*)",
+      "Bash(osascript:*)",
+      "Bash(npm start)",
+      "Bash(node -c:*)",
+      "Bash(python3:*)",
+      "Bash(npm run build:*)",
+      "Bash(hdiutil detach:*)",
+      "Bash(node --check:*)",
+      "Bash(killall:*)",
+      "Read(//private/tmp/**)",
+      "Bash(awk:*)",
       "Bash(git add:*)",
-      "Bash(git branch:*)",
       "Bash(git commit:*)",
-      "Bash(gh repo create:*)"
+      "Bash(git push)",
+      "Bash(log show --predicate 'process == \"\"\"\"Price Monitor Pro\"\"\"\"' --last 1m)",
+      "Bash(xattr:*)",
+      "Bash(\"/Users/daniel/Documents/aicode/16-Web_Scraping/Price_Monitor_Scraper/electron-app/dist/mac-arm64/Price Monitor Pro.app/Contents/MacOS/Price Monitor Pro\")",
+      "Bash(for:*)",
+      "Bash(do open \"/Users/daniel/Documents/aicode/16-Web_Scraping/Price_Monitor_Scraper/electron-app/dist/mac-arm64/Price Monitor Pro.app\" sleep 2 done sleep 5 ps aux)"
     ],
     "deny": [],
     "ask": []

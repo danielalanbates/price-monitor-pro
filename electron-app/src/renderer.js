@@ -933,6 +933,10 @@ function hideAutoCheckModal() {
     window.app?.hideAutoCheckModal();
 }
 
+function hideDealFinderModal() {
+    window.app?.closeModal('dealFinderModal');
+}
+
 // Handle keyboard shortcuts
 document.addEventListener('keydown', (e) => {
     // Escape to close modals

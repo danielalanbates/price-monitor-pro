@@ -1501,9 +1501,20 @@ ipcMain.handle('find-ebay-deals', async (event, searchParams) => {
     return new Promise((resolve) => {
         const { spawn } = require('child_process');
         const pythonPath = process.platform === 'win32' ? 'python' : 'python3';
-        const scriptPath = path.join(__dirname, '../../price_monitor.py');
+
+        // Determine script path based on whether we're in development or production
+        let scriptPath;
+        if (app.isPackaged) {
+            // In production, look in the app's resources
+            scriptPath = path.join(process.resourcesPath, 'price_monitor.py');
+        } else {
+            // In development, use the source directory
+            scriptPath = path.join(__dirname, '../../price_monitor.py');
+        }
 
         console.log('Starting eBay deal search with params:', searchParams);
+        console.log('Python path:', pythonPath);
+        console.log('Script path:', scriptPath);
 
         const pythonProcess = spawn(pythonPath, [
             scriptPath,
